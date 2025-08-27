@@ -1,0 +1,169 @@
+1. definition : container orchestration
+2. need : rise of microservice architecture -> too many containers across multiple environments
+3. features : high availability, scaling and disaster recovery
+
+4. k8 components 
+
+POD
+5. worker node = simple physical server
+6. "pod" is the smallest unit of Kubernetes
+its an abstraction over container 
+pod will act as an interface between user and docker containers 
+7. 1 app per pod, each pod gets an ip
+8. Relationship: 1 Pod → 1 or many containers, but 1 container is always inside exactly 1 Pod.
+
+CHATGPT
+i heard 1 application per pod, so is this application broken between containers? how does it work?
+ChatGPT said:
+
+Yeah you’re right — rule of thumb is 1 app per pod ✅
+
+But here’s how it works:
+
+Usually, 1 pod = 1 main container running the app.
+
+If needed, you can add sidecar containers (e.g. logging, proxy, monitoring). They support the main app but aren’t the app itself.
+
+All containers in a pod share network (same IP/port space) and storage volumes, so they can talk easily like processes on the same machine.
+
+So the application isn’t “split” across containers — it’s mostly in one container, with optional helpers in the same pod.
+
+
+SERVICE (for stable ip addressing)
+(also acts as a load balancer, one service per cluster)
+
+GOOGLE DEFINITION:
+A Service in Kubernetes is an abstraction that defines a logical set of Pods and a policy by which to access them. It acts as a stable network endpoint for a group of Pods, even as individual Pods are created, deleted, or moved within the cluster. 
+
+9. Node contains pods, pods contains containers, containers contain applications
+10. ex: 1 node -> 2 pods, app and db
+suppose db pod dies, then new pod that spawns will have different ip address, hence that's where SERVICE comes, 
+11. service's and pod's lifecycle are independent and if pod dies, the service stays on, using the same ip address
+
+12. INGRESS (for domain names)
+
+13. CONFIGMAP (so if we want to change the configuration of our container (ip address or names), so rather than making changes to the dockerfile and rebuilding and running the container, we can use something called the above)
+
+
+14. SECRET (used to store secret data encoded in base64)
+
+15. VOLUME (extra hard drive to persist data) 
+
+16.1. DEPLOYMENTS (pods are abstraction over containers, whereas deployments are abstraction over pods, we don't create or work with pods, but rather create deployment templates)
+(we can decide how many replicates of a certain pods can exist)
+
+16.2. STATEFULSET (used to replicate db pods) (a deployment template) -> if we want to replicate nodes, we can easily replicate the application pods, but when we replicate db pods, this leads to inconsistencies, hence we use the above which manages the replicating part, scaling up and down
+
+(BUT dbs are usually held outside k8s clusters)
+
+17. K8s architecture components
+	- Worker nodes
+	- Master nodes
+
+18. KUBELET assigns resources to the pods that run inside nodes
+a node needs a container  runtime too
+
+19. KUBEPROXY forwards requests (basically a router uses SERVICE) , also keeps stuffs super efficient
+
+20. 'WorkerNodes' need 3 node processes
+	- Kubelet
+	- Kube Proxy
+	- Container runtime
+
+21. 'MasterNodes' contains the following processes
+	1. API server (gatekeeper, authentication, endpoint for cluster)
+	2. Scheduler (brain, assigns requests to pods or schedules pods)
+	3. Controller Manager (detects state changes, ex: pods dying etc)
+	4. etcd (key value store, logging, holds current status of the cluster, data storage, application data is not stored)
+
+22. 
+Masternodes = less workload = less resources
+workernodes = more workload = more resources
+easily scalable
+
+ 
+23. MINIKUBE
+- 1 node K8s cluster
+- for testing purposes
+- node runs in virtual box on your laptop
+
+24. KUBECTL
+- CLI tool for k8s cluster
+- '1. API Server' (the endpoint for the cluster)
+
+25. Installation of MINIKUBE and KUBECTL
+- minikube start command (starts a cluster on your computer, needs docker engine to be running)
+
+26. KUBECTL COMMANDS
+
+> doskey k=kubectl $*
+
+1. minikube start --driver=docker
+
+2. kubectl get deployment
+3. kubectl get replicaset
+4. kubectl get nodes
+5. kubectl get pod
+
+CREATE DEPLOYMENTS
+6. kubectl create deployment <name-of-deployment> --image=<base-image-for-containers>
+ex: kubectl create deployment nginx-depl --image=nginx
+ex: kubectl create deployment mongo-depl --image=mongo
+
+EDIT DEPLOYMENTS
+>choco install vim
+>choco install nano
+>set KUBE_EDITOR=nano
+7. kubectl edit deployment nginx-depl
+
+LOGS AND INFORMATION
+8. kubectl logs <pod-id> (which can be found using >kubectl get pods)
+9. kubectl describe pod <pod-id>
+
+TO OPEN THE CMD OF ANY CONTAINER
+10. kubectl exec -it <pod-id> -- bin/bash
+
+DELETE
+11. kubectl delete pods <pod-id>
+12. kubectl delete replicaset <replicaset-id>
+13. kubectl delete deployment <deployment-name>
+- remember, doing 11 or 12 will delete the pod for sure but another would spawn in its place until and unless u delete the deployment as a whole
+
+
+28. NAMESPACES
+- 4 namespaces by default
+- in a k8s cluster
+	- kube system
+	- kube public
+	- kube node release (hearbeat of nodes)
+	- default namespace (ours at beginning)
+- kubectl create namespace my-namespace
+- another way is through config file
+
+- usecases: name clashes ashte
+- 1. group namecases based on resource type
+- ex: one for db, one for monitoring, another for elastic stack and lastly one for nginx-ingress
+- 2. namespaces per team on same project
+- 3. staging & development clusters
+- 4. Blue / Green deployment (blue = current, green = next)
+- 5. can also be used for authentication and access limits or even resource limiting per namespace (since a namespace can belong to certain resource type of some team)
+
+- characteristics
+- 1. cannot access resources from another namespace, each namespace should create its own configmap and secret. but service can be used across namespaces
+- 2. 
+
+- how to use?
+- 1. through the cli and use --namespace tag
+- 2. in yaml files under metadata
+
+
+
+
+
+
+
+
+
+
+
+
