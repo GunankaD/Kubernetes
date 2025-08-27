@@ -1,0 +1,10 @@
+29. CONFIGURATION FILES SYNTAX
+has 3 parts
+	1. metadata
+	2. specs (is different for different kind of config file)
+	3. status 
+    - k8s compares status to specs, if != eachother, then it updates the pod to reach the desired state
+	- status is stored in etcd
+
+
+

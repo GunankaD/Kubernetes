@@ -33,6 +33,12 @@ DELETE
 13. kubectl delete deployment <deployment-name>
 - remember, doing 11 or 12 will delete the pod for sure but another would spawn in its place until and unless u delete the deployment as a whole
 
-
 CREATE DEPLOYMENTS USING CONFIG FILES
 14. kubectl apply -f <filename>
+
+EXTRA INFORMATION 
+15. kubectl get pods -o wide 
+16. kubectl get deployment nginx-depl -o yaml
+
+DELETE DEPLOYMENTS USING CONFIG FILES
+17. kubectl delete -f nginx-deployment.yaml

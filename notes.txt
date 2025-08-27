@@ -94,9 +94,6 @@ easily scalable
 25. Installation of MINIKUBE and KUBECTL
 - minikube start command (starts a cluster on your computer, needs docker engine to be running)
 
-
-
-
 28. NAMESPACES
 - 4 namespaces by default
 - in a k8s cluster
