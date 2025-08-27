@@ -94,40 +94,7 @@ easily scalable
 25. Installation of MINIKUBE and KUBECTL
 - minikube start command (starts a cluster on your computer, needs docker engine to be running)
 
-26. KUBECTL COMMANDS
 
-> doskey k=kubectl $*
-
-1. minikube start --driver=docker
-
-2. kubectl get deployment
-3. kubectl get replicaset
-4. kubectl get nodes
-5. kubectl get pod
-
-CREATE DEPLOYMENTS
-6. kubectl create deployment <name-of-deployment> --image=<base-image-for-containers>
-ex: kubectl create deployment nginx-depl --image=nginx
-ex: kubectl create deployment mongo-depl --image=mongo
-
-EDIT DEPLOYMENTS
->choco install vim
->choco install nano
->set KUBE_EDITOR=nano
-7. kubectl edit deployment nginx-depl
-
-LOGS AND INFORMATION
-8. kubectl logs <pod-id> (which can be found using >kubectl get pods)
-9. kubectl describe pod <pod-id>
-
-TO OPEN THE CMD OF ANY CONTAINER
-10. kubectl exec -it <pod-id> -- bin/bash
-
-DELETE
-11. kubectl delete pods <pod-id>
-12. kubectl delete replicaset <replicaset-id>
-13. kubectl delete deployment <deployment-name>
-- remember, doing 11 or 12 will delete the pod for sure but another would spawn in its place until and unless u delete the deployment as a whole
 
 
 28. NAMESPACES
