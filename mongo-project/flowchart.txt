@@ -1,0 +1,21 @@
+whenever an external request comes (mongo express)
+these are the steps the request traverses
+
+1. browser
+2. mongo express external service
+3. mongo express pod
+4. mongodb internal service
+5. mongodb pod
+
+files created in order are
+1. for mongodb pod
+    - mongodb-deployment
+    - mongodb-secret
+
+2. for mongodb internal service
+    - mongodb-service.yaml
+
+3. for mongo-express pod
+    - mongoex-deployment.yaml
+    - mongoex-config.yaml
+
