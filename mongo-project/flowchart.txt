@@ -17,5 +17,18 @@ files created in order are
 
 3. for mongo-express pod
     - mongoex-deployment.yaml
-    - mongoex-config.yaml
+    - mongodb-configmap.yaml
 
+4. for mongo express external service
+    - mongoex-service.yaml
+
+
+- first apply the configMap and secret config files (mongodb-secret.yaml & mongodb-configmap.yaml)
+- then apply the deployment config files (mongodb-deployment.yaml & mongoex-deployment.yaml)
+- lastly apply the service config files (mongodb-service.yaml & mongoex-service.yaml)
+
+- finally run this command which will open up the mongo express application in browser
+> minikube service mongoex-service
+
+username: admin
+password: pass
