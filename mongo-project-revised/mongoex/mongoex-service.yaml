@@ -1,0 +1,18 @@
+# this is an external service
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: mongoex-service
+
+spec:
+  selector:
+    app: mongoex
+  
+  type: LoadBalancer # to make this an external service
+
+  ports:
+  - protocol: TCP
+    port: 8081 # internal port which is connecting the mongoex pod
+    targetPort: 8081 # the receiving port on the mongoex pod
+    nodePort: 30000 # external port which this service accepts requests from

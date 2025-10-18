@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+# this configmap holds the data of the database
+metadata:
+  name: mongodb-configmap 
+
+# key-value pairs
+data:
+  database_url: mongodb-service

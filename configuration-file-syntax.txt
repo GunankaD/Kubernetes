@@ -7,4 +7,13 @@ has 3 parts
 	- status is stored in etcd
 
 
+apiVersion: 
+kind: 
 
+metadata:
+ - 
+ -
+spec:
+ -
+ -
+ -

@@ -42,17 +42,18 @@ suppose db pod dies, then new pod that spawns will have different ip address, he
 
 12. INGRESS (for domain names)
 
-13. CONFIGMAP (so if we want to change the configuration of our container (ip address or names), so rather than making changes to the dockerfile and rebuilding and running the container, we can use something called the above)
+13. CONFIGMAP (holds the configuration of the entire pod, user, password etc)(so if we want to change the configuration of our container (ip address or names), so rather than making changes to the dockerfile and rebuilding and running the container, we can use something called the above)
 
 
-14. SECRET (used to store secret data encoded in base64)
+14. SECRET (same as configmap but used to store secret data encoded in base64)
 
-15. VOLUME (extra hard drive to persist data) 
+15. VOLUME (extra hard drive to persist data, since we know that pods are ephimeral and can die at any given moment, if we want the new pod to know the data that was stored in the previous pod, then we use volume) 
 
 16.1. DEPLOYMENTS (pods are abstraction over containers, whereas deployments are abstraction over pods, we don't create or work with pods, but rather create deployment templates)
 (we can decide how many replicates of a certain pods can exist)
 
-16.2. STATEFULSET (used to replicate db pods) (a deployment template) -> if we want to replicate nodes, we can easily replicate the application pods, but when we replicate db pods, this leads to inconsistencies, hence we use the above which manages the replicating part, scaling up and down
+16.2. STATEFULSET (used to replicate db pods) (a deployment template) -> if we want to replicate nodes, we can easily replicate the application pods, but when we replicate db pods, this leads to inconsistencies, hence we use the above which manages the replicating part, scaling up and down.
+stateful sets are also difficult to manage and hence sometiems are kept outside the clusters
 
 (BUT dbs are usually held outside k8s clusters)
 
@@ -60,10 +61,10 @@ suppose db pod dies, then new pod that spawns will have different ip address, he
 	- Worker nodes
 	- Master nodes
 
-18. KUBELET assigns resources to the pods that run inside nodes
+18. KUBELET assigns resources to the pods that run inside nodes and also boots up containers inside pods
 a node needs a container  runtime too
 
-19. KUBEPROXY forwards requests (basically a router uses SERVICE) , also keeps stuffs super efficient
+19. KUBEPROXY forwards requests (main distinct from service is that this forwards from a service to pods) (basically a router uses SERVICE) , also keeps stuffs super efficient
 
 20. 'WorkerNodes' need 3 node processes
 	- Kubelet

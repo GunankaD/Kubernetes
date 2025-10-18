@@ -1,0 +1,39 @@
+whenever an external request comes (mongo express)
+these are the steps the request traverses
+
+1. browser
+2. mongo express external service
+3. mongo express pod
+4. mongodb internal service
+5. mongodb pod
+
+files created in order are
+1. for mongodb pod (visit: https://hub.docker.com/_/mongo, here u get the port mongodb listens to and environment vars)
+    - mongodb-secret (this contains the username and password encoded in base64 which is referenced in the depl yaml file)
+    - mongodb-deployment (references secret using valueFrom:)
+
+2. for mongodb internal service
+    - mongodb-service.yaml
+
+3. for mongo-express pod (visit: https://hub.docker.com/_/mongo-express)
+    - mongoex-deployment.yaml
+    - mongodb-configmap.yaml
+
+4. for mongo express external service
+    - mongoex-service.yaml
+    this service is a bit different than other services since this is an external service.
+    here we need to include type key (value is LoadBalancer, but not to be confused, even the internal service acts as a load balancer but when type is LoadBalancer and is explicitly given, then it behaves like an external service) inside spec and also give nodePort (the external port this service will accept the external requests from)
+    (range: 30 000 - 32 767)
+
+
+- first apply the configMap and secret config files (mongodb-secret.yaml & mongodb-configmap.yaml)
+- then apply the deployment config files (mongodb-deployment.yaml & mongoex-deployment.yaml)
+- lastly apply the service config files (mongodb-service.yaml & mongoex-service.yaml)
+
+- finally run this command which will open up the mongo express application in browser
+> minikube service mongoex-service
+
+username: admin
+password: pass
+
+if you ever face issues and cant open the website, then usually it would be port number errors check that

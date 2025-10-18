@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: mongoex-deployment
+  labels:
+    app: mongoex
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongoex
+  template:
+    metadata:
+      labels: 
+        app: mongoex
+    
+    spec:
+      containers:
+      - name: mongoex
+        image: mongo-express
+        ports:
+        - containerPort: 8081
+
+        env:
+
+        # from same secret map
+        - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongodb-root-username
+        
+        - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongodb-root-password
+
+        # create a new mongodb config map which stores the database url
+        - name: ME_CONFIG_MONGODB_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: mongodb-configmap
+              key: database_url

@@ -10,9 +10,13 @@
 5. kubectl get pod
 
 CREATE DEPLOYMENTS
+this is used to create pods of same type. if we need pods of different type, then we need to create different deployments
 6. kubectl create deployment <name-of-deployment> --image=<base-image-for-containers>
 ex: kubectl create deployment nginx-depl --image=nginx
 ex: kubectl create deployment mongo-depl --image=mongo
+
+this below command creates more replicas of the same pod type
+kubectl scale deployment nginx-depl --replicas=3
 
 EDIT DEPLOYMENTS
 >choco install vim
@@ -42,3 +46,13 @@ EXTRA INFORMATION
 
 DELETE DEPLOYMENTS USING CONFIG FILES
 17. kubectl delete -f nginx-deployment.yaml
+
+INSTALL INGRESS CONTROLLER IN MINIKUBE
+18. minikube addons enable ingress
+19. k get pods -n ingress-nginx
+- the ingress-nginx pods are created in the ingress-nginx namespace 
+
+
+TO ENABLE DASHBOARD ADDON AND START IT
+20. minikube addons enable dashboard
+21. minikube dashboard
