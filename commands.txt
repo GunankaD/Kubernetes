@@ -59,3 +59,9 @@ TO ENABLE DASHBOARD ADDON AND START IT
 
 TO RUN A SINGLE POD
 22. k run <pod-name> --iamge=<image-name> --port=<port-no.>
+
+TO RERUN DEPLOYMENTS WHEN NO CHANGES WERE MADE
+23. k rollout restart deployment <name>
+
+TO INCREASE THE REPLICA COUNT OF PODS IN A REPLICASET
+24. k scale replicaset <rs-name> --replicas=<new-replica-count>

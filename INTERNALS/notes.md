@@ -58,3 +58,5 @@ e. confirm image
 
 3. Call minikube to create a tunnel and expose service from browser
 - > minikube service flask-service
+
+## EXERCISE 3.
