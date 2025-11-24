@@ -47,7 +47,7 @@ EXTRA INFORMATION
 DELETE DEPLOYMENTS USING CONFIG FILES
 17. kubectl delete -f nginx-deployment.yaml
 
-INSTALL INGRESS CONTROLLER IN MINIKUBE
+INSTALL INGRESS CONTROLLER IN MINIKUBE (nginx implementation)
 18. minikube addons enable ingress
 19. k get pods -n ingress-nginx
 - the ingress-nginx pods are created in the ingress-nginx namespace 
@@ -56,3 +56,6 @@ INSTALL INGRESS CONTROLLER IN MINIKUBE
 TO ENABLE DASHBOARD ADDON AND START IT
 20. minikube addons enable dashboard
 21. minikube dashboard
+
+TO RUN A SINGLE POD
+22. k run <pod-name> --iamge=<image-name> --port=<port-no.>

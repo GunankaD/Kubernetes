@@ -66,14 +66,15 @@ a node needs a container  runtime too
 
 19. KUBEPROXY forwards requests (main distinct from service is that this forwards from a service to pods) (basically a router uses SERVICE) , also keeps stuffs super efficient
 
-20. 'WorkerNodes' need 3 node processes
+20. 'WorkerNodes' need 4 node processes
 	- Kubelet
 	- Kube Proxy
-	- Container runtime
+	- Container runtime (CRI -O)
+	- Container Network Interface (CNI)
 
 21. 'MasterNodes' contains the following processes
 	1. API server (gatekeeper, authentication, endpoint for cluster)
-	2. Scheduler (brain, assigns requests to pods or schedules pods)
+	2. Scheduler (brain, assigns requests to worker nodes only, does not handle pods inside those wnodes, kubelet inside wnodes decide the specific pod (or) handles pod creation inside wnodes)
 	3. Controller Manager (detects state changes, ex: pods dying etc)
 	4. etcd (key value store, logging, holds current status of the cluster, data storage, application data is not stored)
 
@@ -122,13 +123,37 @@ easily scalable
 - 2. in yaml files under metadata
 
 
+INGRESS
+- first install ingress controller, all u have to do is the command under INGRESS controller in the commands.txt
+
+- USAGE: now we needed an external service which does its job from accepting external requests, and forwarding to the internal service. but this has only ip address and no domain name.
+hence this is where the ingress comes into play, this ingress replaces the external service
+ 
+(INGRESS DID NOT WORK EVEN AFTER RUNNING THE TUNNEL)
 
 
+HELM PACKAGE
+- what is helm? it is a package manager for kubernetes
+
+- helm charts
+	- bundle of yaml files
+	- create your own helm charts with helm
+	- push them to helm repository
+	- downlaod and use existing ones
+	- sharing helm charts is what made is popular
+- its also a templating engine
+	- suppose u have multiple yaml files with almost same syntax, but only few values change
+	- then u can make a template yaml config and create value yaml for each individual yaml config files
+	- these will take v less storage
+
+- helm client -> sends the requests to a Tiller which stores the helm chart history
+- downside of tiller -> too much power and space and now its removed
 
 
-
-
-
-
-
-
+VOLUME
+- required to avoid data loss when pod dies
+- 2 types : local ad remote (Remote better)
+- (administrator) needs to set up the PV using config files
+- (developers who use )apps must claim the Persistent volumes (PVC)
+- volume takes space on your system or server
+- have to write a yaml file
