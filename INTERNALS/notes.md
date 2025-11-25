@@ -40,7 +40,7 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 
 ## EXERCISE 2. CREATE AND DEPLOY A FLASK APP IN A CONTAINER IN KUBERNETES
 1. Create an image
-a. create app.py = a simple flask app
+a. create `app.py` = a simple flask app
 b. create Dockerfile
 c. cd to current folder
 d. configure docker to build images inside minikube
@@ -60,8 +60,8 @@ e. confirm image
     > minikube service flask-service
 
 ## EXERCISE 3. SCALING PODS USING REPLICASET
-1. Create small server (app.py) and build an image (refer to the Dockerfile for details)
-2. Create a 'replicaset.yaml' manifest which sets up 3 replicas which use the above image
+1. Create small server (`app.py`) and build an image (refer to the Dockerfile for details)
+2. Create a `replicaset.yaml` manifest which sets up 3 replicas which use the above image
     - also setup the liveness probe and readyness probe
 3. apply -f replicaset.yaml and then check if everything working
 4. > minikube service flashsale-svc # this starts up the terminal
@@ -87,6 +87,21 @@ e. confirm image
         > apt install iputils-ping -y
     - this will install ping and now available to use!
     > ping redis
+6. remove containers 
+    > docker stop flask-api redis sqldb
+    > docker rm flask-api redis sqldb
 
 ## EXERCISE 5.
+
+
+## EXERCISE 6.
+1. prometheus client
+    - A Prometheus client refers to a library or tool that allows an application to expose metrics in a format that the Prometheus monitoring system can scrape and collect.
+    - create `delivery_metrics.py` which has 2 types of metrics: guage and summary. 
+        - counter: strictly increasing metric
+        - guage: is a type of metric that inc or dec
+        - histogram: for bar distributions with fixed buckets
+        - summary: records the changes too (has history)
+    - the script first stirs up a simple server (`start_http_server`)
+    - simple server simulates delivery every sec (sleep(1))
  
