@@ -157,3 +157,12 @@ VOLUME
 - (developers who use )apps must claim the Persistent volumes (PVC)
 - volume takes space on your system or server
 - have to write a yaml file
+
+NETWORKING
+- can create network, network can be of different types (check commands to create them)
+	Driver	Use case
+	bridge	Local container networking
+	host	Best performance (no isolation)
+	none	Fully isolated container
+	overlay	Multi-node networking (Swarm/K8s)
+	macvlan	Make container appear as physical machine

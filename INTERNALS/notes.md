@@ -44,7 +44,7 @@ a. create app.py = a simple flask app
 b. create Dockerfile
 c. cd to current folder
 d. configure docker to build images inside minikube
-    - > minikube docker-env 
+    > minikube docker-env 
     - then run the last command in the output
 c. > docker build -t <image-name> .
     ex: docker build -t flask-app .
@@ -54,9 +54,39 @@ e. confirm image
 2. Create a deployment which uses the above created image
 - keep the imagePullPolicy=NEVER, it only uses the local one if exists and doesnt search on dockerhub
 - create the deployment yaml
-    - > k apply -f flask-deployment.yaml
+    > k apply -f flask-deployment.yaml
 
 3. Call minikube to create a tunnel and expose service from browser
-- > minikube service flask-service
+    > minikube service flask-service
 
-## EXERCISE 3.
+## EXERCISE 3. SCALING PODS USING REPLICASET
+1. Create small server (app.py) and build an image (refer to the Dockerfile for details)
+2. Create a 'replicaset.yaml' manifest which sets up 3 replicas which use the above image
+    - also setup the liveness probe and readyness probe
+3. apply -f replicaset.yaml and then check if everything working
+4. > minikube service flashsale-svc # this starts up the terminal
+5. scale up the number of replicas
+    > k scale replicaset flashsale-rs --replicas=5
+
+## EXERCISE 4. NETWORKING USING BRIDGE NETWORK
+1. 3 containers: flask app, sql db, redis
+2. create a bridge network inside the docker
+    > docker network create --driver=bridge my-bridge-net
+3. create a small flask server and build an image (refer to the Dockerfile for details)
+    > docker build -t flask-api .
+4. spawn 3 containers, while the flask container uses the image we just created
+    docker run -d --name mysql --net=my-bridge-net mysql:latest
+    docker run -d --name redis --net=my-bridge-net redis:latest
+    docker run -d --name flask --net=my-bridge-net -p 5001:5001 flask-api
+5. exec into any of the container and ping the others
+    > docker exec -it flask-api bash
+    - i in it stands for interactive (sends your keyboard input)
+    - t displays terminal
+    - light weight images wont have ping command
+        > apt update
+        > apt install iputils-ping -y
+    - this will install ping and now available to use!
+    > ping redis
+
+## EXERCISE 5.
+ 
