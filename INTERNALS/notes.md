@@ -150,5 +150,17 @@ e. confirm image
         - change master to main
         - Jenkinsfile location as `INTERNALS/exercise6-monitoring/delivery-monitoring/Jenkinsfile`
 - run the build
+- prometheus wont start due to volume mounting issues, start prometheus individually brah ull be fine
 
 
+## EXERCISE 7. JENKINS
+0. pretty basic nothing new
+1. command to run a simple lightweight Jenkins container
+    > docker run -d --name jenkins -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts
+    - port 50000 is for jenkins agents (jenkins main container is called the controller which runs pipelines
+    if it automates builds, and if user has seperate agents (other containers) to do this job, then those agents talk to jenkins using the 50k port)
+2. access jenkins at http://localhost:8080
+3. get jenkins password
+    > docker exec -it jenkins bash
+    > cat /var/jenkins_home/secrets/initialAdminPassword
+    - this should print the pwd out on the terminal, copy paste while logging in
