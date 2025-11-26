@@ -110,7 +110,7 @@ e. confirm image
     - now access this at http://localhost:8000
 2. `prometheus.yml` & `alert_rules.yml`, first one scrapes the data the above prom client gives and second one based on few conditions, throws alert. 
 3. run a container with prometheus image, mounted with a volume which contains both the above jobs
-    > docker run -d --name prometheus -p 9090:9090 -v /var/jenkins_home/workspace/MonitoringPipeline3/INTERNALS/exercise6-monitoring/delivery-monitoring:/etc/prometheus prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+    > docker run -d --name prometheus -p 9090:9090 -v ./prometheus.yml:/etc/prometheus/prometheus.yml -v ./alert_rules.yml:/etc/prometheus/alert_rules.yml prom/prometheus
 
     - -v tag: mounts those 2 jobs in a volume. from local directory to their respective locations inside 
     - prom/prometheus: is the official image
