@@ -1,65 +1,81 @@
 pipeline {
-    agent any
-    stages {
-        stage('Pre-check Docker') {
-            steps {
-                script {
-                    try {
-                        // Check if Docker is installed
-                        def dockerVersion = sh(script: 'docker --version', returnStdout: true).trim()
-                        if (!dockerVersion) {
-                            error "Docker is not installed or not in the PATH. Please install Docker."
-                        }
-
-                        // Check if Docker daemon is running
-                        def dockerInfo = sh(script: 'docker info', returnStatus: true)
-                        if (dockerInfo != 0) {
-                            error "Docker daemon is not running. Please start the Docker service."
-                        }
-
-                        echo "Docker is available and running: ${dockerVersion}"
-                    } catch (Exception e) {
-                        error "Pre-check failed: ${e.message}"
-                    }
-                }
-            }
-        }
-        stage('Setup Workspace') {
-            steps {
-                script {
-                    // Define the local source path where the files are located
-                    def localSourcePath = '/path/to/your/local/files' // Replace with your actual path
-                    def workspacePath = env.WORKSPACE
-
-                    // Copy necessary files into the Jenkins workspace
-                    sh """
-                    cp ${localSourcePath}/delivery_metrics.py ${workspacePath}/
-                    cp ${localSourcePath}/prometheus.yml ${workspacePath}/
-                    cp ${localSourcePath}/alert_rules.yml ${workspacePath}/
-                    """
-                }
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t delivery_metrics .'
-            }
-        }
-        stage('Run Application') {
-            steps {
-                sh 'docker run -d -p 8000:8000 --name delivery_metrics delivery_metrics'
-            }
-        }
-        stage('Run Prometheus & Grafana') {
-            steps {
-                sh '''
-                docker run -d --name prometheus -p 9090:9090 \
-                  -v $WORKSPACE/prometheus.yml:/etc/prometheus/prometheus.yml \
-                  -v $WORKSPACE/alert_rules.yml:/etc/prometheus/alert_rules.yml \
-                  prom/prometheus
-                docker run -d --name grafana -p 3000:3000 grafana/grafana
-                '''
-            }
-        }
+  agent any
+  environment {
+    IMAGE_NAME = "delivery_metrics:local"
+  }
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
     }
+
+    stage('Pre-check Docker') {
+      steps {
+        script {
+          def rc = sh(script: 'which docker >/dev/null 2>&1 && echo 0 || echo 1', returnStdout: true).trim()
+          if (rc != '0') {
+            error "docker CLI not found inside Jenkins container. Ensure docker is available or use a docker agent."
+          }
+          // check docker daemon
+          def infoRc = sh(script: 'docker info >/dev/null 2>&1; echo $?', returnStdout: true).trim()
+          if (infoRc != '0') {
+            error "Docker daemon not accessible. Make sure docker.sock is mounted and daemon is running on host."
+          }
+          echo "Docker CLI & daemon accessible"
+        }
+      }
+    }
+
+    stage('Build Docker Image') {
+      steps {
+        sh 'docker build -t $IMAGE_NAME .'
+      }
+    }
+
+    stage('Deploy Exporter') {
+      steps {
+        sh '''
+          docker rm -f delivery_exporter || true
+          docker run -d --name delivery_exporter -p 8000:8000 $IMAGE_NAME
+        '''
+      }
+    }
+
+    stage('Start Monitoring Stack') {
+      steps {
+        sh '''
+          # remove old ones if present
+          docker rm -f prometheus || true
+          docker rm -f grafana || true
+
+          # start Prometheus (bind to the workspace config)
+          docker run -d --name prometheus -p 9090:9090 \
+            -v $WORKSPACE/prometheus.yml:/etc/prometheus/prometheus.yml \
+            -v $WORKSPACE/alert_rules.yml:/etc/prometheus/alert_rules.yml \
+            prom/prometheus
+
+          docker run -d --name grafana -p 3000:3000 grafana/grafana
+        '''
+      }
+    }
+
+    stage('Verify') {
+      steps {
+        sh '''
+          echo "Containers:"
+          docker ps --filter "name=delivery_exporter|prometheus|grafana" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+          # quick curl checks (may fail if services take time to start)
+          sleep 3
+          echo "Prometheus targets:"
+          curl -sS http://host.docker.internal:9090/api/v1/targets || true
+        '''
+      }
+    }
+  }
+
+  post {
+    success { echo "Pipeline succeeded" }
+    failure { echo "Pipeline failed" }
+  }
 }
