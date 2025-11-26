@@ -114,7 +114,9 @@ CREATING CONTAINERs USING DOCKER
 28. syntax for creating container using docker and not the usual k8s manifest file
     > docker run --name=<container-name> --net=<network-name> <image-name>
 29. entering the terminal of a container
-    > docker exec -it <container-name> bash
+    > docker exec -u root -it <container-name> bash
 30. deleting or removing container created by docker
     > docker rm <container-name> <container-name>
     > docker stop <container-name> <container-name>
+31. restarting a container
+    > docker restart <container-name>

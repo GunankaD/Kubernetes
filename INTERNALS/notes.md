@@ -122,10 +122,32 @@ e. confirm image
 -  go to connections> add new data source > search prometheus > add location as http://host.docker.internal:9090 > Save and test
 - now grafana queries prometheus
 - go to dashboard > add new panels > choose any metric (one from the 4 we had created) and display
+
 5. Jenkins
 - create a folder `jenkins_home`
-> docker run -d -p 8080:8080 -p 50000:50000 --name jenkins -v jenkins_home:/var/jenkins_home jenkins/jenkins:latest
+> docker run -d --name jenkins `
+>>   -p 8080:8080 -p 50000:50000 `
+>>   -v "${PWD}\jenkins_home:/var/jenkins_home" `
+>>   -v "/var/run/docker.sock:/var/run/docker.sock" `
+>>   jenkins/jenkins:lts
 - access at http://localhost:8080
-- 
+- get the password from your jenkins container, run this command
+    > docker exec -it jenkins bash
+    - once inside the container run
+    > cat /var/jenkins_home/secrets/initialAdminPassword
+    - this will print the password onto the terminal, copy paste that on jenkins browser
+- open and let the plugins install
+- install docker in jenkins
+    > docker exec -u root -it jenkins bash
+    > apt-get update
+    > apt-get install -y docker.io
+- create a pipeline in jenkins
+    - new-item > pipeline > enter github url [https://github.com/GunankaD/Kubernetes/] > under pipelines give Jenkinsfile with scm > enter Jenkinsfile location as [INTERNALS/exercise6-monitoring/delivery-monitoring/Jenkinsfile] > create
+    - extra details under Jenkins scm
+        - git
+        - enter repo url
+        - change master to main
+        - Jenkinsfile location as `INTERNALS/exercise6-monitoring/delivery-monitoring/Jenkinsfile`
+- run the build
 
 
