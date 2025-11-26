@@ -94,7 +94,10 @@ e. confirm image
 ## EXERCISE 5.
 
 
-## EXERCISE 6.
+## EXERCISE 6. MONITORING USING PROMETHEUS AND GRAFANA (extra notes in separate .md file)
+0. to enter the virtual environment, go exercise6-monitoring folder
+    > venv\Scripts\Activate.ps1
+    - and run the above command. (this assumes virutal environment was already created)
 1. prometheus client
     - A Prometheus client refers to a library or tool that allows an application to expose metrics in a format that the Prometheus monitoring system can scrape and collect.
     - create `delivery_metrics.py` which has 2 types of metrics: guage and summary. 
@@ -104,4 +107,25 @@ e. confirm image
         - summary: records the changes too (has history)
     - the script first stirs up a simple server (`start_http_server`)
     - simple server simulates delivery every sec (sleep(1))
- 
+    - now access this at http://localhost:8000
+2. `prometheus.yml` & `alert_rules.yml`, first one scrapes the data the above prom client gives and second one based on few conditions, throws alert. 
+3. run a container with prometheus image, mounted with a volume which contains both the above jobs
+    > docker run -d --name prometheus -p 9090:9090 -v ./prometheus.yml:/etc/prometheus/prometheus.yml -v ./alert_rules.yml:/etc/prometheus/alert_rules.yml  prom/prometheus
+    - -v tag: mounts those 2 jobs in a volume. from local directory to their respective locations inside 
+    - prom/prometheus: is the official image
+    - now access the running container at http://localhost:9090
+    - this scrapes data from http://localhost:8000, go to Status/Target and Query/Graph for insights on the scraped data
+4. Grafana
+- create a grafana container
+> docker run -d --name grafana -p 3000:3000 grafana/grafana
+- can access at http://localhost:3000
+-  go to connections> add new data source > search prometheus > add location as http://host.docker.internal:9090 > Save and test
+- now grafana queries prometheus
+- go to dashboard > add new panels > choose any metric (one from the 4 we had created) and display
+5. Jenkins
+- create a folder `jenkins_home`
+> docker run -d -p 8080:8080 -p 50000:50000 --name jenkins -v jenkins_home:/var/jenkins_home jenkins/jenkins:latest
+- access at http://localhost:8080
+- 
+
+
