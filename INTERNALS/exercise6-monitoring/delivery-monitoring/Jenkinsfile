@@ -37,7 +37,7 @@ pipeline {
           docker rm -f grafana || true
 
           docker run -d --name prometheus -p 9090:9090 \
-            -v $$WORKSPACE/INTERNALS/exercise6-monitoring/delivery-monitoring:/etc/prometheus \
+            -v \$WORKSPACE/INTERNALS/exercise6-monitoring/delivery-monitoring:/etc/prometheus \
             prom/prometheus
 
           docker run -d --name grafana -p 3000:3000 grafana/grafana
