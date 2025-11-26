@@ -32,19 +32,33 @@ pipeline {
 
     stage('Deploy Prometheus & Grafana') {
       steps {
-        sh """
+        sh '''#!/bin/bash
+          # Use single quotes for Groovy, then bash sees real $WORKSPACE
+          RUN_DIR="$WORKSPACE/INTERNALS/exercise6-monitoring/delivery-monitoring/prometheus_run_dir"
+
+          mkdir -p "$RUN_DIR"
+
+          SRC_DIR="$WORKSPACE/INTERNALS/exercise6-monitoring/delivery-monitoring"
+
+          # Copy configs safely
+          cp -f "$SRC_DIR/prometheus.yml" "$RUN_DIR/prometheus.yml"
+          cp -f "$SRC_DIR/alert_rules.yml" "$RUN_DIR/alert_rules.yml"
+
+          # Remove old containers
           docker rm -f prometheus || true
           docker rm -f grafana || true
 
+          # Start Prometheus with directory mount
           docker run -d --name prometheus -p 9090:9090 \
-            -v \$WORKSPACE/INTERNALS/exercise6-monitoring/delivery-monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
-            -v \$WORKSPACE/INTERNALS/exercise6-monitoring/delivery-monitoring/alert_rules.yml:/etc/prometheus/alert_rules.yml \
+            -v "$RUN_DIR":/etc/prometheus:ro \
             prom/prometheus
 
+          # Start Grafana
           docker run -d --name grafana -p 3000:3000 grafana/grafana
-        """
+        '''
       }
     }
+
   }
 
   post {
