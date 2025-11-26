@@ -19,6 +19,12 @@
     install ping by running these commands on the container terminal
         > apt update & apt install iputils-ping -y
         
+## exercise 5. AppArmor
+1. 
+- completely overhaul the file and create a new one named `docker_myprofile` in /etc/apparmor.d/
+2. 
+- completely overhaul the `apply_apparmor.py` and `apply_apparmor_test.py`
+
 ## exercise 6. Prometheus
 1. 
 - in `./delivery-monitoring/prometheus.yml` the target for scraping the data needs to be `host.docker.internal:8000` and not `172.17.0.1:8000`. the latter is for linux based systems

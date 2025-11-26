@@ -91,7 +91,18 @@ e. confirm image
     > docker stop flask-api redis sqldb
     > docker rm flask-api redis sqldb
 
-## EXERCISE 5.
+## EXERCISE 5. APPARMOR
+1. to secure your containers and not allow anyone to execute binaries or access few of the directories
+2. to do this create `app.py` simple flask server that we will be securing. create its own `Dockerfile` and build an image `flask-apparmor`
+3. rest of the apparmor profile application will be done in an ubuntu vm
+4. create `docker_myprofile` profile and place in /etc/apparmor.d/
+    - load the profile
+    > sudo apparmor_parser -r /etc/apparmor.d/docker_myprofile
+    > sudo aa-enforce docker_myprofile
+    > sudo aa-status | grep docker_myprofile
+5. test
+    > python3 apply_apparmor.py
+    > python3 apply_apparmor_test.py
 
 
 ## EXERCISE 6. MONITORING USING PROMETHEUS AND GRAFANA (extra notes in separate .md file)
@@ -164,3 +175,26 @@ e. confirm image
     > docker exec -it jenkins bash
     > cat /var/jenkins_home/secrets/initialAdminPassword
     - this should print the pwd out on the terminal, copy paste while logging in
+
+
+## EXERCISE 8. JENKINS HELLO WORLD JOB
+1. create new repo named `devops-sample-code` on github
+2. create a fine grained PAT for the above repo and give only `contents` permission (make sure to give read & write persmission)
+    - PAT: _check secret.txt for the pat token_
+3. install git and docker
+    > sudo apt update
+    > sudo apt install git
+    > sudo apt install docker.io
+    > sudo systemctl enable --now docker
+    > sudo usermod -aG docker $USERsudo apt install docker
+    > sudo reboot
+4. follow the steps and push the code
+5. follow the steps and start the jenkins
+6. create a new item > free style project > enter github url 
+    - under build steps select execute shell and add this line
+    > sh hello-world.sh
+7. To trigger build click on Jenkins Dashboard -> HelloWorld -> Build Now This will trigger the build job.
+8. Navigate to the Build History section on the left-hand side of the job page. Click the build number (e.g., #1). Click Console Output to see the build logs.
+
+
+## EXERCISE 9. 
