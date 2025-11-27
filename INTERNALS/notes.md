@@ -222,3 +222,12 @@ e. confirm image
 > apt install python3-flask
 > python3 -m unittest discover -s .
 6. exit and run the build again. and done!
+
+## EXERCISE 10. MULTINODES
+1. create a multinode system with this command
+    > minikube start --nodes 3 -p devops-multinode --force
+2. setup sharing of images and docker setup by getting a registry addon
+    > minikube -p devops-multinode addons enable registry
+3. create 2 flask apps `shopping_cart.py` and `product_catalog.py` and their respective Dockerfiles
+4. create 2 images one for each of these apps
+    > docker build -t <image-name> -f <Dockerfile-name> .
