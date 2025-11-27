@@ -1,4 +1,4 @@
-## EXERCISE 1
+## EXERCISE 1. HELLO WORLD FOR PODS
 
 1. Setup
 - minikube start 
