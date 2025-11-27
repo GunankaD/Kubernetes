@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shopping-cart
-  namespace: default
+  namespace: devops-exercise
 spec:
   replicas: 3
   selector:
@@ -16,17 +16,14 @@ spec:
     spec:
       affinity:
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app: shopping-cart
-                topologyKey: "kubernetes.io/hostname"
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: shopping-cart
+            topologyKey: "kubernetes.io/hostname"
       containers:
-        - name: shopping-cart-container
-          image: shopping-cart:latest
-          imagePullPolicy: Never
-          ports:
-            - containerPort: 80
-
+      - name: shopping-cart-container
+        image: shopping-cart:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
