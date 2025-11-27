@@ -16,7 +16,7 @@
 - have to manually install it
 - after entering the container terminal using
     > docker exec -it flask-api bash
-    install ping by running these commands on the container terminal
+    - install ping by running these commands on the container terminal
         > apt update & apt install iputils-ping -y
         
 ## exercise 5. AppArmor
