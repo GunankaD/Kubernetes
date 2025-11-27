@@ -1,1 +1,5 @@
 minikube-linux-amd64
+# Ignore accidental shell eval files
+eval "$(ssh-agent -s)"
+eval "$(ssh-agent -s)".pub
+
