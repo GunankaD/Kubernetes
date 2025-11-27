@@ -231,3 +231,13 @@ e. confirm image
 3. create 2 flask apps `shopping_cart.py` and `product_catalog.py` and their respective Dockerfiles
 4. create 2 images one for each of these apps
     > docker build -t <image-name> -f <Dockerfile-name> .
+5. load them into the multinode cluster
+    > minikube -p devops-multinode image load product-catalog:latest
+    > minikube -p devops-multinode image load shopping-cart:latest
+6. create deployment yamls `product_catalog_deployment.yaml` & `shopping_cart_deployment.yaml`
+    > kubectl apply -f product_catalog_deployment.yaml
+    > kubectl apply -f shopping_cart_deployment.yaml
+7. create service yamls and deploy
+8. run the services
+    > minikube -p devops-multinode service product-catalog-service
+    > minikube -p devops-multinode service shopping-cart-service
