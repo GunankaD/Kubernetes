@@ -37,3 +37,9 @@
 - for windows we need to port map, hence the new command would be:
 [CORRECTED_COMMAND]
 > docker run -d --name prometheus -p 9090:9090 -v ./prometheus.yml:/etc/prometheus/prometheus.yml -v ./alert_rules.yml:/etc/prometheus/alert_rules.yml  prom/prometheus
+
+## exercise 9. Jenkins Pipeline
+1. 
+- if you are pushing both exercise9 and exercise8 to same repository, make sure to pull with merging
+2. 
+- the jenkins container does not have python3.11 so just install python3-venv instead of python3.11-venv
