@@ -135,9 +135,10 @@ e. confirm image
 - now grafana queries prometheus
 - go to dashboard > add new panels > choose any metric (one from the 4 we had created) and display
 
-5. Jenkins
-- create a folder `jenkins_home`
-> docker run -d --name jenkins `
+5. Jenkins [DEPRECATED_CHECK_EXERCISE9_FOR_NEW_JENKINS_SETUP]
+- create a folder `jenkins_home` [NOT_REQUIRED]
+[NEW_COMMAND_EXISTS]
+> docker run -d --name jenkins ` 
 >>   -p 8080:8080 -p 50000:50000 `
 >>   -v "${PWD}\jenkins_home:/var/jenkins_home" `
 >>   -v "/var/run/docker.sock:/var/run/docker.sock" `
@@ -149,7 +150,7 @@ e. confirm image
     > cat /var/jenkins_home/secrets/initialAdminPassword
     - this will print the password onto the terminal, copy paste that on jenkins browser
 - open and let the plugins install
-- install docker in jenkins
+- install docker in jenkins [REQUIRED]
     > docker exec -u root -it jenkins bash
     > apt-get update
     > apt-get install -y docker.io
@@ -197,4 +198,27 @@ e. confirm image
 8. Navigate to the Build History section on the left-hand side of the job page. Click the build number (e.g., #1). Click Console Output to see the build logs.
 
 
-## EXERCISE 9. 
+## EXERCISE 9. JENKINS PIPELINE
+1. create `app.py`, `requirements.txt`, `test_app.py`, and `Jenkinsfile` setup remote github repository and push
+2. run a jenkins container
+> docker run -d \
+    --name jenkins \
+    -p 8080:8080 -p 50000:50000 \
+    -v jenkins_home:/var/jenkins_home \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    --group-add $(stat -c '%g' /var/run/docker.sock) \
+    jenkins/jenkins:lts
+- 4th line: adds a volume to persist the container
+- 5th line: This allows Jenkins inside the container to use the Docker engine of your host machine.
+- 6th line: The Docker socket on the host has a group owner (e.g., docker group).This adds the Jenkins container user to that group.
+3. access jenkins at http://localhost:8080, new item > pipeline > github repository > change master to main > Jenkinsfile path
+4. run build (will run into errors, need to install dependencies inside jenkins)
+5. get inside jenkins container, run these commands sequentially
+> docker exec -it -u root <container-id> bash
+> apt-get update
+> apt install python3
+> apt install pip
+> apt install python3-venv
+> apt install python3-flask
+> python3 -m unittest discover -s .
+6. exit and run the build again. and done!
