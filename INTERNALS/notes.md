@@ -139,10 +139,10 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 5. Jenkins [DEPRECATED_CHECK_EXERCISE9_FOR_NEW_JENKINS_SETUP]
 - create a folder `jenkins_home` [NOT_REQUIRED]
 [NEW_COMMAND_EXISTS]
-> docker run -d --name jenkins ` 
-   -p 8080:8080 -p 50000:50000 `
-   -v "${PWD}\jenkins_home:/var/jenkins_home" `
-   -v "/var/run/docker.sock:/var/run/docker.sock" `
+> docker run -d --name jenkins \` 
+   -p 8080:8080 -p 50000:50000 \`
+   -v "${PWD}\jenkins_home:/var/jenkins_home" \`
+   -v "/var/run/docker.sock:/var/run/docker.sock" \`
    jenkins/jenkins:lts
 - access at http://localhost:8080
 - get the password from your jenkins container, run this command
