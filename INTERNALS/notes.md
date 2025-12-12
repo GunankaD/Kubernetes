@@ -22,7 +22,7 @@
 > minikube service hello-k8s
 - here the service name is same as the pod name
 
-5. OUTPUT: 
+5. OUTPUT:  
 D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service hello-k8s
 |-----------|-----------|-------------|---------------------------|
 | NAMESPACE |   NAME    | TARGET PORT |            URL            |
@@ -102,8 +102,8 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
     > sudo aa-status | grep docker_myprofile  
 
 5. test
-    > python3 apply_apparmor.py
-    > python3 apply_apparmor_test.py
+    > python3 apply_apparmor.py  
+    > python3 apply_apparmor_test.py  
 
 
 ## EXERCISE 6. MONITORING USING PROMETHEUS AND GRAFANA (extra notes in separate .md file)
