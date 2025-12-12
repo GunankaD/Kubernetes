@@ -1,16 +1,16 @@
 ## EXERCISE 1. HELLO WORLD FOR PODS
 
 1. Setup
-> minikube start 
-> doskey k=kubectl $*
+> minikube start  
+> doskey k=kubectl $*  
 
 2. Running one single pod
-- k run <pod-name> --image=<image-name> --port=<port-no.>
-- ex: k run hello-k8s --image=nginx --port=80
+> k run <pod-name> --image=<image-name> --port=<port-no.>  
+> k run hello-k8s --image=nginx --port=80  
 
 3. Creating external service so that the pod can be accessed from browser
-- k expose pod <pod-name> --type=<type> --port=<port-no.>
-- k expose pod hello-k8s --type=NodePort --port=80
+> k expose pod <pod-name> --type=<type> --port=<port-no.>  
+> k expose pod hello-k8s --type=NodePort --port=80
 - It creates a Service object so your pod can be reached from outside.
     1. expose = make a Service for an existing Pod
     2. pod hello-k8s = expose this specific pod
@@ -18,8 +18,8 @@
     4. --port=80 = service will forward traffic to port 80 inside the pod
 
 4. To access the service
-- minikube service <service-name>
-- ex: minikube service hello-k8s
+> minikube service <service-name>
+> minikube service hello-k8s
 - here the service name is same as the pod name
 
 D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service hello-k8s
