@@ -1,8 +1,8 @@
 ## EXERCISE 1. HELLO WORLD FOR PODS
 
 1. Setup
-- minikube start 
-- doskey k=kubectl $*
+> minikube start 
+> doskey k=kubectl $*
 
 2. Running one single pod
 - k run <pod-name> --image=<image-name> --port=<port-no.>
@@ -96,9 +96,10 @@ e. confirm image
 3. rest of the apparmor profile application will be done in an ubuntu vm
 4. create `docker_myprofile` profile and place in /etc/apparmor.d/
     - load the profile
-    > sudo apparmor_parser -r /etc/apparmor.d/docker_myprofile
-    > sudo aa-enforce docker_myprofile
-    > sudo aa-status | grep docker_myprofile
+    sudo apparmor_parser -r /etc/apparmor.d/docker_myprofile
+    sudo aa-enforce docker_myprofile
+    sudo aa-status | grep docker_myprofile
+
 5. test
     > python3 apply_apparmor.py
     > python3 apply_apparmor_test.py
