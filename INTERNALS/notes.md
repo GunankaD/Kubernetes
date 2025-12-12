@@ -215,7 +215,7 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 3. access jenkins at http://localhost:8080, new item > pipeline > github repository > change master to main > Jenkinsfile path
 4. run build (will run into errors, need to install dependencies inside jenkins)
 5. get inside jenkins container, run these commands sequentially
-> docker exec -it -u root <container-id> bash  
+> docker exec -it -u root `<container-id>` bash  
 > apt-get update  
 > apt install python3  
 > apt install pip  
@@ -231,7 +231,7 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
     > minikube -p devops-multinode addons enable registry
 3. create 2 flask apps `shopping_cart.py` and `product_catalog.py` and their respective Dockerfiles
 4. create 2 images one for each of these apps
-    > docker build -t <image-name> -f <Dockerfile-name> .
+    > docker build -t `<image-name>` -f `<Dockerfile-name>` .
 5. load them into the multinode cluster
     > minikube -p devops-multinode image load product-catalog:latest  
     > minikube -p devops-multinode image load shopping-cart:latest  
