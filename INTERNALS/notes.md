@@ -9,7 +9,7 @@
 > k run hello-k8s --image=nginx --port=80  
 
 3. Creating external service so that the pod can be accessed from browser
--  k expose pod <pod-name> --type=<type> --port=<port-no.>  
+-  `k expose pod <pod-name> --type=<type> --port=<port-no.>`  
 > k expose pod hello-k8s --type=NodePort --port=80
 - It creates a Service object so your pod can be reached from outside.
     1. expose = make a Service for an existing Pod
@@ -18,10 +18,11 @@
     4. --port=80 = service will forward traffic to port 80 inside the pod
 
 4. To access the service
--  minikube service <service-name>
+- `minikube service <service-name>`
 > minikube service hello-k8s
 - here the service name is same as the pod name
 
+5. OUTPUT: 
 D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service hello-k8s
 |-----------|-----------|-------------|---------------------------|
 | NAMESPACE |   NAME    | TARGET PORT |            URL            |
@@ -46,8 +47,8 @@ c. cd to current folder
 d. configure docker to build images inside minikube
     > minikube docker-env 
     - then run the last command in the output
-c. > docker build -t <image-name> .
-    ex: docker build -t flask-app .
+c. `docker build -t <image-name> .`
+    > docker build -t flask-app .
 e. confirm image
 
 2. Create a deployment which uses the above created image
