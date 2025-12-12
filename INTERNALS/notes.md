@@ -5,7 +5,7 @@
 > doskey k=kubectl $*  
 
 2. Running one single pod
--  k run <pod-name> --image=<image-name> --port=<port-no.>  
+-  `k run <pod-name> --image=<image-name> --port=<port-no.>` 
 > k run hello-k8s --image=nginx --port=80  
 
 3. Creating external service so that the pod can be accessed from browser
