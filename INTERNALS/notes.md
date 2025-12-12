@@ -75,21 +75,21 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 3. create a small flask server and build an image (refer to the Dockerfile for details)
     > docker build -t flask-api .
 4. spawn 3 containers, while the flask container uses the image we just created
-    docker run -d --name mysql --net=my-bridge-net mysql:latest
-    docker run -d --name redis --net=my-bridge-net redis:latest
-    docker run -d --name flask --net=my-bridge-net -p 5001:5001 flask-api
+    > docker run -d --name mysql --net=my-bridge-net mysql:latest  
+    > docker run -d --name redis --net=my-bridge-net redis:latest  
+    > docker run -d --name flask --net=my-bridge-net -p 5001:5001 flask-api  
 5. exec into any of the container and ping the others
     > docker exec -it flask-api bash
     - i in it stands for interactive (sends your keyboard input)
     - t displays terminal
     - light weight images wont have ping command
-        > apt update
-        > apt install iputils-ping -y
+        > apt update  
+        > apt install iputils-ping -y  
     - this will install ping and now available to use!
-    > ping redis
+    > ping redis  
 6. remove containers 
-    > docker stop flask-api redis sqldb
-    > docker rm flask-api redis sqldb
+    > docker stop flask-api redis sqldb  
+    > docker rm flask-api redis sqldb  
 
 ## EXERCISE 5. APPARMOR
 1. to secure your containers and not allow anyone to execute binaries or access few of the directories
