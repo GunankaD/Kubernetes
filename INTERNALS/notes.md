@@ -140,10 +140,10 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 - create a folder `jenkins_home` [NOT_REQUIRED]
 [NEW_COMMAND_EXISTS]
 > docker run -d --name jenkins ` 
->>   -p 8080:8080 -p 50000:50000 `
->>   -v "${PWD}\jenkins_home:/var/jenkins_home" `
->>   -v "/var/run/docker.sock:/var/run/docker.sock" `
->>   jenkins/jenkins:lts
+   -p 8080:8080 -p 50000:50000 `
+   -v "${PWD}\jenkins_home:/var/jenkins_home" `
+   -v "/var/run/docker.sock:/var/run/docker.sock" `
+   jenkins/jenkins:lts
 - access at http://localhost:8080
 - get the password from your jenkins container, run this command
     > docker exec -it jenkins bash
@@ -152,9 +152,9 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
     - this will print the password onto the terminal, copy paste that on jenkins browser
 - open and let the plugins install
 - install docker in jenkins [REQUIRED]
-    > docker exec -u root -it jenkins bash
-    > apt-get update
-    > apt-get install -y docker.io
+    > docker exec -u root -it jenkins bash  
+    > apt-get update  
+    > apt-get install -y docker.io  
 - create a pipeline in jenkins
     - new-item > pipeline > enter github url [https://github.com/GunankaD/Kubernetes/] > under pipelines give Jenkinsfile with scm > enter Jenkinsfile location as [INTERNALS/exercise6-monitoring/delivery-monitoring/Jenkinsfile] > create
     - extra details under Jenkins scm
