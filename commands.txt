@@ -75,7 +75,8 @@ DOCKER NETWORKING
     > docker network ls
 
 27. to inspect the network
-    > docker network inspect <network-name>PS D:\IMPORTANT\Projects\Kubernetes> docker network inspect my-bridge-net
+    > docker network inspect <network-name>
+    > docker network inspect my-bridge-net
 OUTPUT
 [
     {
@@ -116,8 +117,8 @@ CREATING CONTAINERs USING DOCKER
 29. entering the terminal of a container
     > docker exec -u root -it <container-name> bash
 30. deleting or removing container created by docker
-    > docker rm <container-name> <container-name>
-    > docker stop <container-name> <container-name>
+    > docker rm <container-name>
+    > docker stop <container-name>
 31. restarting a container
     > docker restart <container-name>
 

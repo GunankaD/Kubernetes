@@ -49,7 +49,6 @@ d. configure docker to build images inside minikube
 c. > docker build -t <image-name> .
     ex: docker build -t flask-app .
 e. confirm image
-    -
 
 2. Create a deployment which uses the above created image
 - keep the imagePullPolicy=NEVER, it only uses the local one if exists and doesnt search on dockerhub
