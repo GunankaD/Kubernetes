@@ -146,9 +146,9 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
    jenkins/jenkins:lts
 - access at http://localhost:8080
 - get the password from your jenkins container, run this command
-    > docker exec -it jenkins bash
+    > docker exec -it jenkins bash  
     - once inside the container run
-    > cat /var/jenkins_home/secrets/initialAdminPassword
+    > cat /var/jenkins_home/secrets/initialAdminPassword  
     - this will print the password onto the terminal, copy paste that on jenkins browser
 - open and let the plugins install
 - install docker in jenkins [REQUIRED]
@@ -174,8 +174,8 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
     if it automates builds, and if user has seperate agents (other containers) to do this job, then those agents talk to jenkins using the 50k port)
 2. access jenkins at http://localhost:8080
 3. get jenkins password
-    > docker exec -it jenkins bash
-    > cat /var/jenkins_home/secrets/initialAdminPassword
+    > docker exec -it jenkins bash  
+    > cat /var/jenkins_home/secrets/initialAdminPassword  
     - this should print the pwd out on the terminal, copy paste while logging in
 
 
@@ -184,17 +184,17 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 2. create a fine grained PAT for the above repo and give only `contents` permission (make sure to give read & write persmission)
     - PAT: _check secret.txt for the pat token_
 3. install git and docker
-    > sudo apt update
-    > sudo apt install git
-    > sudo apt install docker.io
-    > sudo systemctl enable --now docker
-    > sudo usermod -aG docker $USERsudo apt install docker
-    > sudo reboot
+    > sudo apt update  
+    > sudo apt install git  
+    > sudo apt install docker.io  
+    > sudo systemctl enable --now docker  
+    > sudo usermod -aG docker $USERsudo apt install docker  
+    > sudo reboot  
 4. follow the steps and push the code
 5. follow the steps and start the jenkins
 6. create a new item > free style project > enter github url 
     - under build steps select execute shell and add this line
-    > sh hello-world.sh
+    > sh hello-world.sh  
 7. To trigger build click on Jenkins Dashboard -> HelloWorld -> Build Now This will trigger the build job.
 8. Navigate to the Build History section on the left-hand side of the job page. Click the build number (e.g., #1). Click Console Output to see the build logs.
 
@@ -215,13 +215,13 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 3. access jenkins at http://localhost:8080, new item > pipeline > github repository > change master to main > Jenkinsfile path
 4. run build (will run into errors, need to install dependencies inside jenkins)
 5. get inside jenkins container, run these commands sequentially
-> docker exec -it -u root <container-id> bash
-> apt-get update
-> apt install python3
-> apt install pip
-> apt install python3-venv
-> apt install python3-flask
-> python3 -m unittest discover -s .
+> docker exec -it -u root <container-id> bash  
+> apt-get update  
+> apt install python3  
+> apt install pip  
+> apt install python3-venv  
+> apt install python3-flask  
+> python3 -m unittest discover -s .  
 6. exit and run the build again. and done!
 
 ## EXERCISE 10. MULTINODES
@@ -233,12 +233,12 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 4. create 2 images one for each of these apps
     > docker build -t <image-name> -f <Dockerfile-name> .
 5. load them into the multinode cluster
-    > minikube -p devops-multinode image load product-catalog:latest
-    > minikube -p devops-multinode image load shopping-cart:latest
+    > minikube -p devops-multinode image load product-catalog:latest  
+    > minikube -p devops-multinode image load shopping-cart:latest  
 6. create deployment yamls `product_catalog_deployment.yaml` & `shopping_cart_deployment.yaml`
-    > kubectl apply -f product_catalog_deployment.yaml
-    > kubectl apply -f shopping_cart_deployment.yaml
+    > kubectl apply -f product_catalog_deployment.yaml  
+    > kubectl apply -f shopping_cart_deployment.yaml  
 7. create service yamls and deploy
 8. run the services
-    > minikube -p devops-multinode service product-catalog-service
+    > minikube -p devops-multinode service product-catalog-service  
     > minikube -p devops-multinode service shopping-cart-service
