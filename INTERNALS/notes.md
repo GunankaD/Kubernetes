@@ -41,15 +41,15 @@ D:\IMPORTANT\Projects\Kubernetes\internals\exercise1-hello-pod>minikube service 
 
 ## EXERCISE 2. CREATE AND DEPLOY A FLASK APP IN A CONTAINER IN KUBERNETES
 1. Create an image
-a. create `app.py` = a simple flask app
-b. create Dockerfile
-c. cd to current folder
-d. configure docker to build images inside minikube
+- create `app.py` = a simple flask app
+- create Dockerfile
+- cd to current folder
+- configure docker to build images inside minikube
     > minikube docker-env 
     - then run the last command in the output
-c. `docker build -t <image-name> .`
+- `docker build -t <image-name> .`
     > docker build -t flask-app .
-e. confirm image
+- confirm image
 
 2. Create a deployment which uses the above created image
 - keep the imagePullPolicy=NEVER, it only uses the local one if exists and doesnt search on dockerhub
